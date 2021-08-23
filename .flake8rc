@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 120
+exclude = **/tests/*,**/migrations/*,**/templates/*,.venv,.mypy_cache,.vscode,.git,timescale/*
+ignore = E701,E231,W503
+per-file-ignores =
+    edge_platform_server/asgi.py:E402
+    edge_platform_server/settings.py:E402
