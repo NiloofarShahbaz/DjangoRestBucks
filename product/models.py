@@ -6,7 +6,7 @@ def get_default_product_options():
     return {"consume location": ["take away", "in shop"]}
 
 
-def get_default_order_options():
+def get_default_order_option():
     return {"consume location": 0}
 
 
@@ -27,9 +27,9 @@ class Order(models.Model):
         ("D", "Delivered"),
     )
 
-    products = models.ManyToManyField(Product, through="product.ProductOrder")
+    products = models.ManyToManyField(Product, through="product.OrderDetail")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="W")
 
     def __str__(self) -> str:
         return f"{self.user}-{self.get_products()}"
@@ -51,10 +51,10 @@ class Order(models.Model):
         return self.products.aggregate(models.Sum("price")).get("price__sum")
 
 
-class ProductOrder(models.Model):
+class OrderDetail(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    chosen_options = models.JSONField(default=get_default_order_options)
+    chosen_option = models.JSONField(default=get_default_order_option)
 
     def __str__(self):
         return f"{self.product}-{self.order.user}"

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product, Order, ProductOrder
+from .models import Product, Order, OrderDetail
 
 # TODO: add filter for admins
 
@@ -12,9 +12,9 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("user", "status", "get_products")
+    list_display = ("user", "status", "get_products", "total_price")
 
 
-@admin.register(ProductOrder)
-class ProductOrderAdmin(admin.ModelAdmin):
-    list_display = ("product", "order", "chosen_options")
+@admin.register(OrderDetail)
+class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ("product", "order", "chosen_option")
