@@ -15,4 +15,10 @@ class OrderViewSet(ModelViewSet):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
-        return Order.objects.filter(user_id=self.request.user.id)
+        queryset = Order.objects.filter(user_id=self.request.user.id)
+        if self.action != ("update", "partial_update", "destroy"):
+            return queryset.filter(status="W")
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user_id=self.request.user.id)
