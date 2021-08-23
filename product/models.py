@@ -15,7 +15,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField()
     options = models.JSONField(default=get_default_product_options)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -31,11 +31,24 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.user}-{self.get_products()}"
 
-    def get_products(self):
+    def get_products(self) -> str:
+        """
+        Returns a string of all product names seperated by comma.
+
+        :return str: products
+        """
         return ", ".join([product.name for product in self.products.all()])
+
+    def total_price(self) -> int:
+        """
+        Returns the total price of ordered products.
+
+        :return int: total_price
+        """
+        return self.products.aggregate(models.Sum("price")).get("price__sum")
 
 
 class ProductOrder(models.Model):

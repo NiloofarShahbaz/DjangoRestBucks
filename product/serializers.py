@@ -1,9 +1,23 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
-from .models import Product
+from .models import Product, Order
 
 
-class ProductSerializer(ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ("id", "name", "price", "options")
+
+
+class ProductWithoutOptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("id", "name", "price")
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    products = ProductWithoutOptionsSerializer(many=True)
+
+    class Meta:
+        model = Order
+        fields = ("id", "products", "status", "total_price")
