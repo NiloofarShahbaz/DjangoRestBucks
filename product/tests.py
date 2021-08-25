@@ -157,6 +157,26 @@ class OrderTest(APITestCase):
         expected_order = self.order_json(Order.objects.last())
         self.assertDictEqual(response.data, expected_order)
 
+    def test_create_order_with_empty_products(self):
+        response = self.client.post(
+            reverse("order-list"),
+            data={"order_details": []},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_create_order_with_invalid_products(self):
+        response = self.client.post(
+            reverse("order-list"),
+            data={
+                "order_details": [
+                    {"product": {"id": 1000000}},
+                ]
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_anonymous_client_create_order(self):
         response = self.anonymous_client.post(
             reverse("order-list"),
@@ -181,6 +201,26 @@ class OrderTest(APITestCase):
         expected_order = self.order_json(Order.objects.get(pk=self.order_pk))
         self.assertDictEqual(response.data, expected_order)
 
+    def test_update_order_with_empty_products(self):
+        response = self.client.put(
+            reverse("order-detail", kwargs={"pk": self.order_pk}),
+            data={"order_details": []},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_update_order_with_invalid_products(self):
+        response = self.client.put(
+            reverse("order-detail", kwargs={"pk": self.order_pk}),
+            data={
+                "order_details": [
+                    {"product": {"id": 1000000}},
+                ]
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_update_none_waiting_order(self):
         response = self.client.put(
             reverse("order-detail", kwargs={"pk": self.none_waiting_order_pk}),
@@ -193,6 +233,14 @@ class OrderTest(APITestCase):
             format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_anonymous_client_update_order(self):
+        response = self.anonymous_client.post(
+            reverse("order-detail", kwargs={"pk": self.order_pk}),
+            data={"order_details": [{"product": {"id": 1}}]},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_delete_order(self):
         response = self.client.delete(

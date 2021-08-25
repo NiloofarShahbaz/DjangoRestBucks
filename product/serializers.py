@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from django.db import transaction
+from django.core.validators import ValidationError as DjangoValidationError
 from django.db.utils import IntegrityError
 
 from .models import Product, Order, OrderDetail, get_default_order_option
@@ -50,8 +51,8 @@ class OrderSerializer(serializers.ModelSerializer):
         try:
             with transaction.atomic():
                 instance = Order.objects.create(**validated_data)
-                # add the list of products to ProductOrder
-                OrderDetail.objects.bulk_create(
+                # Create and validate Product Order
+                order_details = [
                     OrderDetail(
                         product_id=order_detail["product"].get("id"),
                         order_id=instance.id,
@@ -60,9 +61,15 @@ class OrderSerializer(serializers.ModelSerializer):
                         else get_default_order_option(),
                     )
                     for order_detail in order_details_data
-                )
-        except IntegrityError:
-            raise ValidationError({"products": "product id is not valid."})
+                ]
+                for order_detail in order_details:
+                    order_detail.full_clean()
+                # add the list of products to ProductOrder
+                OrderDetail.objects.bulk_create(order_details)
+        except (IntegrityError, DjangoValidationError):
+            raise ValidationError(
+                {"order_details": "Some of the product ids are not valid."}
+            )
         return instance
 
     def update(self, instance: Order, validated_data: dict) -> Order:
@@ -77,7 +84,8 @@ class OrderSerializer(serializers.ModelSerializer):
             with transaction.atomic():
                 # delete all the orders and replace with the new ones.
                 OrderDetail.objects.filter(order_id=instance.id).delete()
-                OrderDetail.objects.bulk_create(
+                # Create and validate Product Order
+                order_details = [
                     OrderDetail(
                         product_id=order_detail["product"].get("id"),
                         order_id=instance.id,
@@ -86,7 +94,13 @@ class OrderSerializer(serializers.ModelSerializer):
                         else get_default_order_option(),
                     )
                     for order_detail in order_details_data
-                )
-        except IntegrityError:
-            raise ValidationError({"products": "product id is not valid."})
+                ]
+                for order_detail in order_details:
+                    order_detail.full_clean()
+                # add the list of products to ProductOrder
+                OrderDetail.objects.bulk_create(order_details)
+        except (IntegrityError, DjangoValidationError):
+            raise ValidationError(
+                {"order_details": "Some of the product ids are not valid."}
+            )
         return instance
