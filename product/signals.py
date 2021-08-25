@@ -5,7 +5,9 @@ from django.core.mail import send_mail
 from .models import Order
 
 
-NOTIFICATION_EMAIL_TEMPLATE = "Dear {},\n\nYour order {} status has changed to {}."
+STATUS_CHANGED_NOTIFICATION_EMAIL_TEMPLATE = (
+    "Dear {},\n\nYour order {} status has changed to {}."
+)
 
 
 @receiver(pre_save, sender=Order, dispatch_uid="send_email_on_status_change")
@@ -16,7 +18,7 @@ def send_email_on_status_change(sender, instance, *args, **kwargs):
             # TODO: do this in a celery task
             send_mail(
                 subject="Order status changed",
-                message=NOTIFICATION_EMAIL_TEMPLATE.format(
+                message=STATUS_CHANGED_NOTIFICATION_EMAIL_TEMPLATE.format(
                     instance.user.first_name or instance.user.username,
                     instance.pk,
                     instance.get_status_display(),

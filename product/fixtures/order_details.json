@@ -1,0 +1,73 @@
+[
+{
+    "model": "product.orderdetail",
+    "pk": 18,
+    "fields": {
+        "product": 1,
+        "order": 7,
+        "chosen_option": {
+            "consume location": 0
+        }
+    }
+},
+{
+    "model": "product.orderdetail",
+    "pk": 19,
+    "fields": {
+        "product": 3,
+        "order": 7,
+        "chosen_option": {
+            "consume location": 0,
+            "size": 2
+        }
+    }
+},
+{
+    "model": "product.orderdetail",
+    "pk": 20,
+    "fields": {
+        "product": 5,
+        "order": 7,
+        "chosen_option": {
+            "consume location": 0,
+            "size": 1
+        }
+    }
+},
+{
+    "model": "product.orderdetail",
+    "pk": 21,
+    "fields": {
+        "product": 4,
+        "order": 7,
+        "chosen_option": {
+            "consume location": 0,
+            "shots": 1
+        }
+    }
+},
+{
+    "model": "product.orderdetail",
+    "pk": 27,
+    "fields": {
+        "product": 6,
+        "order": 14,
+        "chosen_option": {
+            "consume location": 0,
+            "kind": 1
+        }
+    }
+},
+{
+    "model": "product.orderdetail",
+    "pk": 28,
+    "fields": {
+        "product": 4,
+        "order": 14,
+        "chosen_option": {
+            "consume location": 0,
+            "shots": 1
+        }
+    }
+}
+]

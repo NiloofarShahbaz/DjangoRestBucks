@@ -1,0 +1,18 @@
+[
+{
+    "model": "product.order",
+    "pk": 7,
+    "fields": {
+        "user": 2,
+        "status": "W"
+    }
+},
+{
+    "model": "product.order",
+    "pk": 14,
+    "fields": {
+        "user": 2,
+        "status": "P"
+    }
+}
+]

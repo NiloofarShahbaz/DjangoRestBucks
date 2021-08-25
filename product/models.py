@@ -42,6 +42,7 @@ class Order(models.Model):
         """
         return ", ".join([product.name for product in self.products.all()])
 
+    @property
     def total_price(self) -> int:
         """
         Returns the total price of ordered products.

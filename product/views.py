@@ -16,7 +16,7 @@ class OrderViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = Order.objects.filter(user_id=self.request.user.id)
-        if self.action not in ("update", "partial_update", "destroy"):
+        if self.action in ("update", "partial_update", "destroy"):
             return queryset.filter(status="W")
         return queryset
 
