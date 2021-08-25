@@ -1,0 +1,110 @@
+[
+{
+    "model": "product.product",
+    "pk": 1,
+    "fields": {
+        "name": "Tea",
+        "price": 10000,
+        "options": {
+            "consume location": [
+                "take away",
+                "in shop"
+            ]
+        }
+    }
+},
+{
+    "model": "product.product",
+    "pk": 2,
+    "fields": {
+        "name": "Latte",
+        "price": 30000,
+        "options": {
+            "consume location": [
+                "take away",
+                "in shop"
+            ],
+            "milk": [
+                "skim",
+                "semi",
+                "whole"
+            ]
+        }
+    }
+},
+{
+    "model": "product.product",
+    "pk": 3,
+    "fields": {
+        "name": "Cappuccino",
+        "price": 30000,
+        "options": {
+            "consume location": [
+                "take away",
+                "in shop"
+            ],
+            "size": [
+                "small",
+                "medium",
+                "large"
+            ]
+        }
+    }
+},
+{
+    "model": "product.product",
+    "pk": 4,
+    "fields": {
+        "name": "Espresso",
+        "price": 20000,
+        "options": {
+            "consume location": [
+                "take away",
+                "in shop"
+            ],
+            "shots": [
+                "single",
+                "double",
+                "triple"
+            ]
+        }
+    }
+},
+{
+    "model": "product.product",
+    "pk": 5,
+    "fields": {
+        "name": "Hot chocolate",
+        "price": 20000,
+        "options": {
+            "consume location": [
+                "take away",
+                "in shop"
+            ],
+            "size": [
+                "small",
+                "medium",
+                "large"
+            ]
+        }
+    }
+},
+{
+    "model": "product.product",
+    "pk": 6,
+    "fields": {
+        "name": "Cookie",
+        "price": 15000,
+        "options": {
+            "consume location": [
+                "take away",
+                "in shop"
+            ],
+            "kind": [
+                "chocolate",
+                "ginger"
+            ]
+        }
+    }
+}
+]
