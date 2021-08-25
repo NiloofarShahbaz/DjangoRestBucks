@@ -45,6 +45,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
         """
         order_details_data = validated_data.pop("orderdetail_set")
+        if not order_details_data:
+            raise ValidationError({"order_details": "Order details can't be empty"})
         try:
             with transaction.atomic():
                 instance = Order.objects.create(**validated_data)
@@ -69,6 +71,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
         """
         order_details_data = validated_data.pop("orderdetail_set")
+        if not order_details_data:
+            raise ValidationError({"order_details": "Order details can't be empty"})
         try:
             with transaction.atomic():
                 # delete all the orders and replace with the new ones.
