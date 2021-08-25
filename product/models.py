@@ -32,9 +32,9 @@ class Order(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default="W")
 
     def __str__(self) -> str:
-        return f"{self.user}-{self.get_products()}"
+        return f"{self.user}-{self.product_list()}"
 
-    def get_products(self) -> str:
+    def product_list(self) -> str:
         """
         Returns a string of all product names seperated by comma.
 

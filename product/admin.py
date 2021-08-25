@@ -12,7 +12,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ("user", "status", "get_products", "total_price")
+    list_display = ("user", "status", "product_list", "total_price")
 
 
 @admin.register(OrderDetail)
